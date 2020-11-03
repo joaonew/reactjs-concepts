@@ -4,39 +4,39 @@ import api from './services/api';
 import "./styles.css";
 
 function App() {
-  const [projects, setProjects] = useState([]);
+  const [repositories, setRepositories] = useState([]);
 
   useEffect(() => {
-    api.get('projects').then(response => {
-      setProjects(response.data);
+    api.get('repositories').then(response => {
+      setRepositories(response.data);
     });
   }, []);
 
   async function handleAddRepository() {
-    const response = await api.post('projects', {
+    const response = await api.post('repositories', {
       title: `Novo projeto ${Date.now()}`,
       url: "Joao Fiche",
       techs: ['Node.Js', 'React']
     });
-    const project = response.data;
+    const repository = response.data;
 
-    setProjects([...projects, project]);
+    setRepositories([...repositories, repository]);
     
   }
 
   async function handleRemoveRepository(id) {
-    await api.delete(`projects/${id}`);
-    setProjects(projects.filter(project => project.id !== id));
+    await api.delete(`repositories/${id}`);
+    setRepositories(repositories.filter(repository => repository.id !== id));
 
   }
 
   return (
     <div>
       <ul data-testid="repository-list">   
-          {projects.map(project => (
-            <li key={project.id}>
-              {project.title}
-                <button onClick={() => handleRemoveRepository(project.id)}>
+          {repositories.map(repository => (
+            <li key={repository.id}>
+              {repository.title}
+                <button onClick={() => handleRemoveRepository(repository.id)}>
                 Remover
                 </button>
             </li>
